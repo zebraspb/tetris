@@ -1,10 +1,9 @@
 #include "ncurses/ncmainwindow.h"
+#include "log/Log.h"
 
 #include <iostream>
 #include <sstream>
-#include "log/Log.h"
 #include <getopt.h>
-
 
 namespace {
 
@@ -38,7 +37,7 @@ int main( int argc, char *argv[] ) {
         if( c == opts[ 0 ] ) { // -h
             usage( ) ;
 			return 1;
-        } else if(c == opts[1]) { // -s
+        } else if( c == opts[ 1 ] ) { // -s
 			std::stringstream( optarg ) >> figlen ;
 			if( figlen < 1 ) {
 				_err << "size must be a number better 0" << endl_ ;

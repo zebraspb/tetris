@@ -13,7 +13,7 @@ using namespace Figures ;
 
 Figure::Figure( int len ) : len( len ) {
 	if( len < 1 ) {
-		std::cerr << "min len is 2" << std::endl ;
+		std::cerr << "min len is 1" << std::endl ;
 		throw ;
 	}
 

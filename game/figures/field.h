@@ -23,9 +23,6 @@ public:
 
 	void run( ) ;
 
-
-//	std::vector< std::vector<char> > &getField( ) ;	// all game field with figure
-
 	int getFieldColsLen( ) { return cols_len ; }
 	int getFieldRowsLen( ) { return rows_len ; }
 
@@ -44,8 +41,6 @@ private:
 	void addFigure( ) ;
 	void clearFigure( ) ;
 
-//	void figureFallThread( ) ;
-
 private:
 	const int cols_len ;
 	const int rows_len ;
@@ -57,13 +52,7 @@ private:
 	Utils::fig_place fig_pos ;
 	Utils::fig_place fig_pos_old ;
 
-
 	addFigureInterface *addfig ;
-
-//	std::mutex m ;
-//	std::thread *t1 ;
-//	bool activeThread ;
-
 	std::vector< std::vector<char> > field ;
 };
 

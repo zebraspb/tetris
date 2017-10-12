@@ -81,7 +81,6 @@ void GameField::generateNewFig( ) {
 }
 
 bool GameField::processAction( Utils::Actions action ) {
-	//std::lock_guard<std::mutex> lock( m ) ;	// thread safety for figureFallThread and main thread run( )
 	bool ret = true ;
 	switch( action ) {
 		case Utils::Actions::Action_down:
@@ -247,8 +246,6 @@ void GameField::clearFigure( ) {
 				}
 			}
 		}
-
-		_inf << "clear figure done ..." << endl_ ;
 	}
 }
 
