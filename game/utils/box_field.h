@@ -1,7 +1,7 @@
 #ifndef __BOX_FIELD_H__
 #define __BOX_FIELD_H__
 
-namespace Figures {
+namespace Utils {
 
 struct box_field {
 	int pos_col ;

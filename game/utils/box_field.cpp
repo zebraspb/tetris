@@ -1,7 +1,7 @@
 #include "box_field.h"
-#include "Log/Log.h"
+#include "log/Log.h"
 
-using namespace Figures ;
+using namespace Utils ;
 
 
 fig_place::fig_place( ) {

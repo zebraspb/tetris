@@ -4,7 +4,7 @@
 #include <vector>
 
 
-namespace Figures {
+namespace Utils {
 	
 	class fig_place ;
 

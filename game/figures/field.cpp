@@ -1,5 +1,6 @@
 #include "field.h"
-#include "Log/Log.h"
+#include "log/Log.h"
+#include "utils/common_utils.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -8,9 +9,12 @@
 #include <cassert>
 
 using namespace Figures ;
+using namespace Utils ;
 
 GameField::GameField( addFigureInterface *addfig, int figure_len, int maxcols, int maxrows )
 	: figure( figure_len ), addfig( addfig ), utils( field )
+	, rows_len( maxrows - 10 - figure_len / 2 )
+	, cols_len( figure_len * 2 + figure_len / 2 + figure_len / 3 )
 {
 	if( !addfig ) {
 		_err << "addfig interface is empty, exit with error" << endl_ ;
@@ -26,11 +30,6 @@ GameField::GameField( addFigureInterface *addfig, int figure_len, int maxcols, i
 		_err << "Can't create field, with figure_len " << figure_len << " and maxrows " << maxrows << endl_;
 		throw ;
 	}
-
-	cols_len = figure_len * 2 + figure_len / 2 + figure_len / 3 ;
-	if( cols_len > maxcols ) cols_len = maxcols ;
-
-	rows_len = maxrows - 10 - figure_len / 2 ;
 
 	std::vector<char> temp( cols_len, 0 ) ;
 	field.resize( rows_len, temp ) ;
@@ -48,30 +47,14 @@ GameField::~GameField( ) {
 
 }
 
-void GameField::Start( ) {
-	if( !activeThread ) {
-		activeThread = true ;
-		t1 = new std::thread ( &GameField::figureFallThread, std::ref( *this ) ) ;
+void GameField::run( ) {
 
-		addfig->drowScores( utils.getscores( ), utils.getlevel( ) ) ;
-		addfig->drowNextFig( figure.getNextFig( ) ) ;
-	}
-}
+	Utils::common_utils cmnut ;
+	cmnut.startGameControl( ) ;
 
-void GameField::Stop( ) {
-	if( activeThread ) {
-		activeThread = false ;
-		t1->join( ) ;
-		delete t1 ;
-	}
-}
+	while( !processAction( cmnut.getAction( ) ) ) ;
 
-void GameField::figureFallThread( ) {
-	while( 1 ) {
-		usleep( utils.getDelay( ) ) ;
-		if( !activeThread ) break ;
-		ProcessAction( Figures::Action_down ) ;
-	}
+	cmnut.stopGameControl( ) ;
 }
 
 void GameField::generateNewFig( ) {
@@ -89,46 +72,39 @@ void GameField::generateNewFig( ) {
 	fig_pos_old.clear( ) ;
 }
 
-std::vector< std::vector<char> > &GameField::getField( ) {
-	assert( field.size( ) ) ;
-	assert( field.at( 0 ).size( ) ) ;
-
-	return field ;
-}
-
-void GameField::ProcessAction( Actions action ) {
-	std::lock_guard<std::mutex> lock( m ) ;	// thread safety for figureFallThread and main thread run( )
+bool GameField::processAction( Utils::Actions action ) {
+	//std::lock_guard<std::mutex> lock( m ) ;	// thread safety for figureFallThread and main thread run( )
 
 	switch( action ) {
-		case Actions::Action_down:
+		case Utils::Actions::Action_down:
 		{
 			_inf << "ActionDown" << endl_ ;
 			processDown( ) ;
 		}
 		break;
 
-		case Actions::Action_left:
+		case Utils::Actions::Action_left:
 		{
 			_inf << "Action_left" << endl_ ;
 			processLeft( ) ;
 		}
 		break ;
 
-		case Actions::Action_right:
+		case Utils::Actions::Action_right:
 		{
 			_inf << "Action_right" << endl_ ;
 			processRight( ) ;
 		}
 		break ;
 
-		case Actions::Action_rotate:
+		case Utils::Actions::Action_rotate:
 		{
 			_inf << "Action_rotate" << endl_ ;
 			processRotate( ) ;
 		}
 		break ;
 
-		case Actions::Action_unrotate:
+		case Utils::Actions::Action_unrotate:
 		{
 			_inf << "Action_unrotate" << endl_ ;
 //			figure.UnRotate( ) ;
@@ -137,15 +113,20 @@ void GameField::ProcessAction( Actions action ) {
 		}
 		break ;
 
+		case Utils::Action_exit:
+			return false ;
+		break;
+
 		case Actions::Action_empty:
 		default:
 		{
-			return ;
+			return true ;
 		}
 		break ;
 	}
 	// drow figure after ProcessAction
 	addfig->drowGameField( field ) ;
+	return true ;
 }
 
 void GameField::processFilledRows( ) {

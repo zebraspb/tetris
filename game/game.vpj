@@ -211,20 +211,16 @@
 			Filters=""/>
 	</CustomFolders>
 	<Files AutoFolders="DirectoryView">
-		<Folder Name="Figures">
-			<F N="Figures/addFigureInterface.h"/>
-			<F N="Figures/box_field.cpp"/>
-			<F N="Figures/box_field.h"/>
-			<F N="Figures/field.cpp"/>
-			<F N="Figures/field.h"/>
-			<F N="Figures/field_utils.cpp"/>
-			<F N="Figures/field_utils.h"/>
-			<F N="Figures/figure.cpp"/>
-			<F N="Figures/figure.h"/>
+		<Folder Name="figures">
+			<F N="figures/addFigureInterface.h"/>
+			<F N="figures/field.cpp"/>
+			<F N="figures/field.h"/>
+			<F N="figures/figure.cpp"/>
+			<F N="figures/figure.h"/>
 		</Folder>
-		<Folder Name="Log">
-			<F N="Log/Log.cpp"/>
-			<F N="Log/Log.h"/>
+		<Folder Name="log">
+			<F N="log/Log.cpp"/>
+			<F N="log/Log.h"/>
 		</Folder>
 		<Folder Name="main">
 			<F N="main/main.cpp"/>
@@ -232,6 +228,14 @@
 		<Folder Name="ncurses">
 			<F N="ncurses/ncmainwindow.cpp"/>
 			<F N="ncurses/ncmainwindow.h"/>
+		</Folder>
+		<Folder Name="utils">
+			<F N="utils/box_field.cpp"/>
+			<F N="utils/box_field.h"/>
+			<F N="utils/common_utils.cpp"/>
+			<F N="utils/common_utils.h"/>
+			<F N="utils/field_utils.cpp"/>
+			<F N="utils/field_utils.h"/>
 		</Folder>
 	</Files>
 </Project>

@@ -1,4 +1,4 @@
-#include "Figures/figure.h"
+#include "figure.h"
 
 #include <random>
 #include <stdint.h>

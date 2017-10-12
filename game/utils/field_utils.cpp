@@ -1,11 +1,11 @@
-#include "Figures/field_utils.h"
-#include "Figures/box_field.h"
+#include "field_utils.h"
+#include "box_field.h"
 
-#include "Log/Log.h"
+#include "log/Log.h"
 
 #include <assert.h>
 
-using namespace Figures ;
+using namespace Utils ;
 
 const unsigned int Field_utils::delays[ max_level ] = { 500000, 400000, 320000, 290000, 250000,
 														200000, 160000,  130000, 100000,  90000 } ;

@@ -6,8 +6,8 @@
 #include <mutex>
 #include <fstream>
 
-#include "Figures/box_field.h"
-#include "Figures/addFigureInterface.h"
+#include "utils/box_field.h"
+#include "figures/addFigureInterface.h"
 
 
 namespace Figures {
@@ -51,9 +51,9 @@ private:
 
 	Figures::GameField *gameField ;
 
-	Figures::box_field game_field_pos ;
-	Figures::box_field next_fig_pos ;
-	Figures::box_field inf_field_pos ;
+	Utils::box_field game_field_pos ;
+	Utils::box_field next_fig_pos ;
+	Utils::box_field inf_field_pos ;
 
     bool quit ;
 

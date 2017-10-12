@@ -1,9 +1,9 @@
 #include "ncmainwindow.h"
 
-#include "Figures/figure.h"
-#include "Figures/field.h"
+#include "figures/figure.h"
+#include "figures/field.h"
 
-#include "Log/Log.h"
+#include "log/Log.h"
 
 #include <ncurses.h>
 #include <stdexcept>
@@ -35,10 +35,9 @@ NcMainWindow::NcMainWindow( int figlen )
 
 	gameField = new Figures::GameField( this, figlen, maxcol, maxrow ) ;
 	
-	std::vector< std::vector<char> > &field =  gameField->getField( ) ;
 
-	game_field_pos.rows_len = field.size( ) ;
-	game_field_pos.cols_len = field[ 0 ].size( ) ;
+	game_field_pos.rows_len = gameField->getFieldRowsLen( ) ;
+	game_field_pos.cols_len = gameField->getFieldColsLen( ) ;
 	game_field_pos.pos_col = ( maxcol / 2 ) - ( game_field_pos.cols_len / 2 ) ;
 	game_field_pos.pos_row = ( maxrow / 2 ) - ( game_field_pos.rows_len  / 2 ) ;
 	game_win = newwin( game_field_pos.rows_len + 2, game_field_pos.cols_len + 2, game_field_pos.pos_row, game_field_pos.pos_col ) ;
@@ -86,9 +85,9 @@ NcMainWindow::~NcMainWindow( ) {
 
 void NcMainWindow::run( ) {
 	std::lock_guard<std::mutex> lock( m ) ;	// run only once
+	gameField->run( ) ; // blocked call until exit
 
-
-	gameField->Start( ) ;
+/*
 	halfdelay( 1 ) ;
 
 	quit = false;
@@ -137,7 +136,7 @@ void NcMainWindow::run( ) {
 	}
 
 	gameField->Stop( ) ;
-
+*/
 	clear( ) ;
 	nocbreak( ) ;
 
