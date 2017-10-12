@@ -11,7 +11,7 @@ namespace Utils {
 
 	class Field_utils {
 	public:
-		Field_utils( std::vector< std::vector<char> > &field ) ;
+		Field_utils( std::vector< std::vector<char> > &field, int figlen ) ;
 		~Field_utils( ) ;
 
 		bool checkFigureLeft  ( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) ;
@@ -38,6 +38,8 @@ namespace Utils {
 
 		bool fieldOverFlow ;
 
+		int figlen ;
+		int scores_mult ;
 		int level ;
 		int level_mult ;
 		int scores ;

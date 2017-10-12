@@ -39,7 +39,7 @@ private:
 	void processRotate( ) ;
 	void processLeft( ) ;
 	void processRight( ) ;
-	void processDown( ) ;
+	bool processDown( ) ;
 
 	void addFigure( ) ;
 	void clearFigure( ) ;

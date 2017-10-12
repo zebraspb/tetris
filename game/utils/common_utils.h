@@ -14,6 +14,7 @@ namespace Utils {
 		Action_down,
 		Action_unrotate,
 	
+		Action_pause,
 		Action_exit,
 		Action_empty,
 		Action_last
@@ -25,7 +26,9 @@ namespace Utils {
 		~common_utils( ) ;
 
 		void startGameControl( ) ;
-		void stopGameControl  ( ) ;
+		void stopGameControl ( ) ;
+
+		void setGameDelay( unsigned long delayus ) ;
 
 		Actions getAction( ) ;
 
@@ -41,6 +44,9 @@ namespace Utils {
 		struct termios t ;
 
 		struct itimerspec period ;
+
+		unsigned long delayus ;
+		bool change_delay;
 
 		int epollfd ;
 		int kbd_fd ;

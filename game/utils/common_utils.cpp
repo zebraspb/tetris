@@ -7,8 +7,16 @@
 
 using namespace Utils ;
 
-common_utils::common_utils( ) {
+common_utils::common_utils( ) 
+	: tmr_fd( -1 )
+	, kbd_fd( -1 )
+	, epollfd( -1 )
+
+{
 	memset( &events, 0, sizeof( events ) ) ;
+
+	delayus = 500000 ; // 1 sec by default
+	change_delay = false ;
 }
 
 common_utils::~common_utils( ) {
@@ -41,7 +49,7 @@ void common_utils::startGameControl( ) {
 		throw ;
 	}
 
-	const long delay = static_cast<long>( 5 * 10e7 ) ;
+	const long delay = static_cast<long>( delayus * 10e2 ) ; // mcs to 10ns
 
 	period.it_value.tv_sec  = now.tv_sec + 1 ;
 	period.it_value.tv_nsec = now.tv_nsec ;
@@ -88,14 +96,39 @@ Actions common_utils::getAction( ) {
 
 	int nfds = ::epoll_wait( epollfd, events, maxEpollEvents,  -1 ) ;
 
+	_inf << "epoll exit, nfds " << nfds << endl_ ;
 	for( auto i = 0; i < nfds; i++ ) {
 		if( events[ i ].data.fd == kbd_fd && ( events[ i ].events & EPOLLPRI || events[ i ].events & EPOLLIN ) ){
 			char ch[ 10 ] ;
 			int len = read( kbd_fd, &ch, 10 ) ;
+
 			return parseReadedKey( ch, len ) ;
 		} else if( events[ i ].data.fd == tmr_fd && ( events[ i ].events & EPOLLPRI || events[i].events & EPOLLIN ) ){
 			uint64_t exp ;
 			int s = read( tmr_fd, &exp, sizeof(uint64_t));
+			if( change_delay ) {
+				const long delay = static_cast<long>( delayus * 10e2 ) ; // mcs to 10ns
+				struct timespec now ;
+
+				_err << "Set New Delay " << delayus << " mcs " << endl_ ;
+
+				clock_gettime( CLOCK_REALTIME, &now ) ;
+				now.tv_nsec += delay ;
+				if( now.tv_nsec >= 10e8 ) {
+					now.tv_nsec -= 10e8 ;
+					now.tv_sec += 1 ;
+				}
+
+				period.it_value = now ;
+				period.it_interval.tv_sec  = 0 ;
+				period.it_interval.tv_nsec = delay ; 
+
+				if( timerfd_settime( tmr_fd, TFD_TIMER_ABSTIME, &period, NULL ) == -1 ) {
+					_err << "Error occured with timerfd set time" << endl_ ;
+					throw ;
+				}
+				change_delay = false ;
+			}
 			return Actions::Action_down ;
 		}
 	}
@@ -127,12 +160,16 @@ Actions common_utils::parseReadedKey( char *ch, int len ) {
 	else if( str == key_esc ||
 			 str == key_q ||
 			 str == key_Q || 
-			 str == key_F2 ) {
-		return Utils::Action_exit ;
-	}
-
+			 str == key_F2 )    return Utils::Action_exit ;
 
 	return Utils::Action_empty ;
 }
 
+
+void common_utils::setGameDelay( unsigned long delayus ) {
+	if( this->delayus != delayus ) {
+		this->delayus = delayus ;
+		change_delay = true ;
+	}
+}
 

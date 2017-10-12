@@ -11,10 +11,13 @@ const unsigned int Field_utils::delays[ max_level ] = { 500000, 400000, 320000, 
 														200000, 160000,  130000, 100000,  90000 } ;
 
 		
-Field_utils::Field_utils( std::vector< std::vector<char> > &field ) 
-	: field( field ), fieldOverFlow( false ), level( 1 ), scores( 0 ), level_mult( 100 )
+Field_utils::Field_utils( std::vector< std::vector<char> > &field, int figlen ) 
+	: field( field ), fieldOverFlow( false ), level( 1 ), scores( 0 ), figlen( 0 )
 {
+	scores_mult = std::max( 1,  10 * ( figlen - 4 ) ) ;
+	level_mult = scores_mult * 10 ;
 
+	_inf << "scores_mult : " << scores_mult << " level_mult " << level_mult << endl_ ;
 }
 
 Field_utils::~Field_utils( ) {
@@ -125,9 +128,11 @@ void Field_utils::addScores( int lines ) {
 		scores += summprev ;
 	}
 
+	scores *= scores_mult ;
+
 	if( ( scores >= level * level_mult ) && ( level < max_level ) ) {
 		++level ;
-		level_mult *= 5 ;
+		level_mult *= 2 ;
 	}
 }
 

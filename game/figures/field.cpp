@@ -12,7 +12,7 @@ using namespace Figures ;
 using namespace Utils ;
 
 GameField::GameField( addFigureInterface *addfig, int figure_len, int maxcols, int maxrows )
-	: figure( figure_len ), addfig( addfig ), utils( field )
+	: figure( figure_len ), addfig( addfig ), utils( field, figure_len )
 	, rows_len( maxrows - 10 - figure_len / 2 )
 	, cols_len( figure_len * 2 + figure_len / 2 + figure_len / 3 )
 {
@@ -52,7 +52,13 @@ void GameField::run( ) {
 	Utils::common_utils cmnut ;
 	cmnut.startGameControl( ) ;
 
-	while( !processAction( cmnut.getAction( ) ) ) ;
+	addfig->drowGameField( field ) ;
+	addfig->drowNextFig( figure.getNextFig( ) ) ;
+	addfig->drowScores( utils.getscores( ), utils.getlevel( ) ) ;
+    
+	while( processAction( cmnut.getAction( ) ) ) {
+		cmnut.setGameDelay( utils.getDelay( ) ) ;
+	}
 
 	cmnut.stopGameControl( ) ;
 }
@@ -70,16 +76,18 @@ void GameField::generateNewFig( ) {
 
 	fig_pos.setf( cols_len / 2, -1, figcols, figrows ) ;
 	fig_pos_old.clear( ) ;
+
+	addFigure( ) ;
 }
 
 bool GameField::processAction( Utils::Actions action ) {
 	//std::lock_guard<std::mutex> lock( m ) ;	// thread safety for figureFallThread and main thread run( )
-
+	bool ret = true ;
 	switch( action ) {
 		case Utils::Actions::Action_down:
 		{
 			_inf << "ActionDown" << endl_ ;
-			processDown( ) ;
+			ret = processDown( ) ;
 		}
 		break;
 
@@ -141,8 +149,6 @@ void GameField::processFilledRows( ) {
 
 			r = field.erase( r ) ;
 			field.insert( field.begin( ), temp ) ;
-			addfig->drowGameField( field ) ;
-			usleep( 100000 ) ;
 		} else {
 			++r ;
 		}
@@ -201,7 +207,7 @@ void GameField::processRight( ) {
 	addFigure( ) ;
 }
 
-void GameField::processDown( ) {
+bool GameField::processDown( ) {
 	clearFigure( ) ;
 	fig_pos.down( ) ;
 
@@ -211,16 +217,17 @@ void GameField::processDown( ) {
 		addFigure( ) ;
 
 		if( utils.checkFieldOverFlow( ) ) {
-			addfig->overflow( ) ;
-			return ;
+			return false ;
 		}
 
-		generateNewFig( ) ;
 		processFilledRows( ) ;
 
+		generateNewFig( ) ;
 		addfig->drowNextFig( figure.getNextFig( ) ) ;
 	}
 	addFigure( ) ;
+
+	return true ;
 }
 
 
