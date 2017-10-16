@@ -15,7 +15,7 @@ common_utils::common_utils( )
 {
 	memset( &events, 0, sizeof( events ) ) ;
 
-	delayus = 500000 ; // 1 sec by default
+	delayus = 500000 ; // 0.5 sec by default
 	change_delay = false ;
 }
 
