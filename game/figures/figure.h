@@ -14,8 +14,8 @@ public:
 	void Rotate( ) ;
 	void UnRotate( ) ;
 
-	std::vector< std::vector<char> >& getCurrFig( ) ;
-	std::vector< std::vector<char> >& getNextFig( ) ;
+	const std::vector< std::vector<char> >& getCurrFig( ) const ;
+	const std::vector< std::vector<char> >& getNextFig( ) const ;
 
 private:
 	int len ;

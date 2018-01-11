@@ -130,14 +130,14 @@ void Figure::generateFig( std::vector< std::vector<char> > &fig ) {
 	}
 }
 
-std::vector< std::vector<char> >& Figure::getCurrFig( ) {
+const std::vector< std::vector<char> >& Figure::getCurrFig( ) const {
 	assert( currFig.size( ) ) ;
 	assert( currFig[ 0 ].size( ) ) ;
 
 	return currFig ;
 }
 
-std::vector< std::vector<char> >& Figure::getNextFig( ) {
+const std::vector< std::vector<char> >& Figure::getNextFig( ) const {
 	assert( nextFig.size( ) ) ;
 	assert( nextFig[ 0 ].size( ) ) ;
 

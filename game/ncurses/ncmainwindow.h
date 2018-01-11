@@ -23,8 +23,8 @@ public:
 
 	void run( ) ;
 
-	void drowGameField( std::vector< std::vector<char> > &field ) ;
-	void drowNextFig( std::vector< std::vector<char> > &nextfig ) ;
+	void drowGameField( const std::vector< std::vector<char> > &field ) ;
+	void drowNextFig( const std::vector< std::vector<char> > &nextfig ) ;
 	void drowScores( int scores, int level ) ;
 
 

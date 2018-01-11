@@ -14,20 +14,20 @@ namespace Utils {
 		Field_utils( std::vector< std::vector<char> > &field, int figlen ) ;
 		~Field_utils( ) ;
 
-		bool checkFigureLeft  ( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) ;
-		bool checkFigureRight ( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) ;
-		bool checkFigureBottom( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) ;
+		bool checkFigureLeft  ( const fig_place &fig_pos, const std::vector< std::vector<char> > &fig ) const ;
+		bool checkFigureRight ( const fig_place &fig_pos, const std::vector< std::vector<char> > &fig ) const ;
+		bool checkFigureBottom( const fig_place &fig_pos, const std::vector< std::vector<char> > &fig ) const ;
 
-		bool checkFieldOverFlow( ) { return fieldOverFlow ; }
+		bool checkFieldOverFlow( ) const { return fieldOverFlow ; }
 
-		bool checkColBorders  ( fig_place &fig_pos ) ;
-		bool checkRowBorder   ( fig_place &fig_pos ) ;
+		bool checkColBorders  ( const fig_place &fig_pos ) const ;
+		bool checkRowBorder   ( const fig_place &fig_pos ) const ;
 
 		void addScores( int lines ) ;
 
-		unsigned int getDelay( ) ;
-		int getlevel( ) { return level ; }
-		int getscores( ) { return scores ; }
+		unsigned int getDelay( ) const ;
+		int getlevel( ) const { return level ; }
+		int getscores( ) const { return scores ; }
 
 
 	private:
@@ -36,11 +36,11 @@ namespace Utils {
 
 		std::vector< std::vector<char> > &field ;
 
-		bool fieldOverFlow ;
+		mutable bool fieldOverFlow ;
 
 		int figlen ;
 		int scores_mult ;
-		int level ;
+		mutable int level ;
 		int level_mult ;
 		int scores ;
 

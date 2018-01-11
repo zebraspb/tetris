@@ -7,8 +7,8 @@ namespace Figures {
 
 	class addFigureInterface {
 	public:
-		virtual void drowGameField( std::vector< std::vector<char> > &field ) = 0 ;
-		virtual void drowNextFig( std::vector< std::vector<char> > &nextfig ) = 0 ;
+		virtual void drowGameField( const std::vector< std::vector<char> > &field ) = 0 ;
+		virtual void drowNextFig( const std::vector< std::vector<char> > &nextfig ) = 0 ;
 		virtual void drowScores( int scores, int level ) = 0 ;
 	};
 

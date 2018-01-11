@@ -24,7 +24,7 @@ Field_utils::~Field_utils( ) {
 
 }
 
-bool Field_utils::checkFigureLeft( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) {
+bool Field_utils::checkFigureLeft( const fig_place &fig_pos, const std::vector< std::vector<char> > &fig ) const {
 	//check for field fill in left shift
 	auto begcol = fig_pos.getBeginCol( ) ;
 	auto endcol = fig_pos.getEndCol( ) ;
@@ -46,7 +46,7 @@ bool Field_utils::checkFigureLeft( fig_place &fig_pos, std::vector< std::vector<
 	return true ;
 }
 
-bool Field_utils::checkFigureRight( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) {
+bool Field_utils::checkFigureRight( const fig_place &fig_pos, const std::vector< std::vector<char> > &fig ) const {
 		//check for field fill in right shift
 	auto begcol = fig_pos.getBeginCol( ) ;
 	auto endcol = fig_pos.getEndCol( ) ;
@@ -67,7 +67,7 @@ bool Field_utils::checkFigureRight( fig_place &fig_pos, std::vector< std::vector
 	return true ;
 }
 
-bool Field_utils::checkColBorders( fig_place &fig_pos ) {
+bool Field_utils::checkColBorders( const fig_place &fig_pos ) const {
 
 	assert( field.size( ) ) ;
 	assert( field.at( 0 ).size( ) ) ;
@@ -82,7 +82,7 @@ bool Field_utils::checkColBorders( fig_place &fig_pos ) {
 	return true ;
 }
 
-bool Field_utils::checkRowBorder( fig_place &fig_pos ) {
+bool Field_utils::checkRowBorder( const fig_place &fig_pos ) const {
 	assert( field.size( ) ) ;
 	assert( field.at( 0 ).size( ) ) ;
 
@@ -95,7 +95,7 @@ bool Field_utils::checkRowBorder( fig_place &fig_pos ) {
 	return true ;
 }
 
-bool Field_utils::checkFigureBottom( fig_place &fig_pos, std::vector< std::vector<char> > &fig ) {
+bool Field_utils::checkFigureBottom( const fig_place &fig_pos, const std::vector< std::vector<char> > &fig ) const {
 	auto begcol = fig_pos.getBeginCol( ) ;
 	auto endcol = fig_pos.getEndCol  ( ) ;
 	auto begrow = fig_pos.getBeginRow( ) ;
@@ -136,7 +136,7 @@ void Field_utils::addScores( int lines ) {
 	}
 }
 
-unsigned int Field_utils::getDelay( ) {
+unsigned int Field_utils::getDelay( ) const {
 	if( level > max_level ) level = max_level ;
 	if( level < 1 ) level = 1 ;
 	return delays[ level - 1 ] ;

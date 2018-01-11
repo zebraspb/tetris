@@ -69,7 +69,7 @@ void GameField::generateNewFig( ) {
 
 	figure.Generate( ) ;
 
-	std::vector< std::vector<char> > &fig = figure.getCurrFig( ) ;
+	auto &fig = figure.getCurrFig( ) ;
 
 	int figrows = fig.size( ) ; // fig checked in getCurrFig
 	int figcols = fig.at( 0 ).size( ) ;
@@ -133,7 +133,7 @@ bool GameField::processAction( Utils::Actions action ) {
 	}
 	// drow figure after ProcessAction
 	addfig->drowGameField( field ) ;
-	return true ;
+	return ret ;
 }
 
 void GameField::processFilledRows( ) {
@@ -162,7 +162,7 @@ void GameField::processRotate( ) {
 	clearFigure( ) ;
 
 	figure.Rotate( ) ;
-	std::vector< std::vector<char> > &fig = figure.getCurrFig( ) ;
+	auto &fig = figure.getCurrFig( ) ;
 	fig_pos.rotate( fig.at( 0 ).size( ), fig.size( ) ) ;
 
 	if( !utils.checkColBorders( fig_pos ) || 
@@ -171,7 +171,7 @@ void GameField::processRotate( ) {
 		!utils.checkFigureBottom( fig_pos, fig ) ) 
 	{
 		figure.UnRotate( ) ;
-		std::vector< std::vector<char> > &fig = figure.getCurrFig( ) ;
+		auto &fig = figure.getCurrFig( ) ;
 		fig_pos.rotate( fig.at( 0 ).size( ), fig.size( ) ) ;
 	}
 

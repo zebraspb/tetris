@@ -36,10 +36,10 @@ public:
 
 	void rotate( unsigned int cols_len, unsigned int row_len ) ; // figures sizes after rotate
 
-	int getBeginCol( ) { return beg_col ; }
-	int getEndCol  ( ) { return end_col ; }
-	int getBeginRow( ) { return beg_row ; }
-	int getEndRow  ( ) { return end_row ; }
+	int getBeginCol( ) const { return beg_col ; }
+	int getEndCol  ( ) const { return end_col ; }
+	int getBeginRow( ) const { return beg_row ; }
+	int getEndRow  ( ) const { return end_row ; }
 
 private:
 	int beg_col ;

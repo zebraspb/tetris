@@ -23,8 +23,8 @@ public:
 
 	void run( ) ;
 
-	int getFieldColsLen( ) { return cols_len ; }
-	int getFieldRowsLen( ) { return rows_len ; }
+	int getFieldColsLen( ) const { return cols_len ; }
+	int getFieldRowsLen( ) const { return rows_len ; }
 
 private:
 	void generateNewFig( ) ;

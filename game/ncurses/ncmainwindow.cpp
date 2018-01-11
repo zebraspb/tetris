@@ -92,7 +92,7 @@ void NcMainWindow::run( ) {
 
 
 
-void NcMainWindow::drowGameField( std::vector< std::vector<char> > &field ) {
+void NcMainWindow::drowGameField( const std::vector< std::vector<char> > &field ) {
 	int rows_len = field.size( ) ;
 	int cols_len = field[ 0 ].size( ) ;
 
@@ -105,7 +105,7 @@ void NcMainWindow::drowGameField( std::vector< std::vector<char> > &field ) {
 	wrefresh( game_win ) ;
 }
 
-void NcMainWindow::drowNextFig( std::vector< std::vector<char> > &nextfig ) {
+void NcMainWindow::drowNextFig( const std::vector< std::vector<char> > &nextfig ) {
 	int rows_len = nextfig.size( ) ;
 	int cols_len = nextfig[ 0 ].size( ) ;
 
